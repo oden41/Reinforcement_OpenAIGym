@@ -3,8 +3,10 @@
 import gym
 import numpy
 from scipy.linalg import expm
+# import csv
 
-def doOneIteration(env):
+
+def doOneIteration(episode, env):
     Lambda = 8
     M = 5
     T = 200
@@ -23,8 +25,11 @@ def doOneIteration(env):
     theta_best = numpy.zeros(4)
     r_best = 0
     g = 0
+    # f = open('data{0}.csv'.format(episode), 'ab')
+    # csvWriter = csv.writer(f)
 
     while g < 2000 and r_best < 200 * M:
+        # dataList = [g]
         list = []
         for j in range(Lambda):
             z_j = numpy.random.randn(4)
@@ -46,6 +51,9 @@ def doOneIteration(env):
                     if done:
                         break
         list.sort(key=lambda x: (x[2]), reverse=True)
+        # for j in range(Lambda):
+        # 	dataList.append(list[j][2])
+        # csvWriter.writerow(dataList)
         r_best = list[0][2]
         theta_best = list[0][1]
         sum1 = numpy.zeros(4)
@@ -62,7 +70,8 @@ def doOneIteration(env):
         sigma *= numpy.exp(eta_sigma * G_sigma / 2)
         B = B.dot(expm(eta_B * G_B / 2))
         g += 1
-        print("g:{0},   r_best:{1},   theta:{2}".format(g, r_best, theta_best))
+    print("g:{0},   r_best:{1},   theta:{2}".format(g, r_best, theta_best))
+    # f.close()
     if g >= 2000:
         return False
     else:
@@ -74,9 +83,9 @@ if __name__ == "__main__":
     success = 0
     fail = 0
 
-    for i in range(1):
+    for i in range(100):
         env = gym.make('CartPole-v0')
-        result = doOneIteration(env)
+        result = doOneIteration(i, env)
         if result:
             success += 1
         else:
