@@ -22,6 +22,7 @@ def doOneIteration(episode, env):
         weight.append(max(0, numpy.log(Lambda/2 + 1) - numpy.log(i + 1))/denom - 1.0/Lambda)
     weight = numpy.asarray(weight)
     theta = 2 * numpy.random.rand(4) - 1
+    # theta = 2 * numpy.random.rand(4) - 10
     theta_best = numpy.zeros(4)
     r_best = 0
     g = 0

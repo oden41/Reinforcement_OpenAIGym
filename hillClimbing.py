@@ -7,6 +7,7 @@ import numpy
 
 def doOneIteration(episode, env):
     theta = 2 * numpy.random.rand(4) - 1
+    # theta = 2 * numpy.random.rand(4) - 10
     r_best = 0
     g = 0
 
